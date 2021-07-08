@@ -1,10 +1,9 @@
 # Pokedex
-
 ### Project created with the intention of studying Svelte and its technologies.
 
 ## Features
   - [ ] List the Pokemons.
-      * [ ] Option to sort pokemons by generation and id.
+      * [ ] Option to sort pokemons by generation, type and id.
   - [ ] Search pokemons.
       * [ ] Method to filter pokemons by their name.
       * [ ] Method to filter pokemons by their id.

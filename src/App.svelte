@@ -1,10 +1,26 @@
 <script>
-	export let name;
 </script>
 
 <main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+	<h1>Pokedex</h1>
+	<nav>
+		<p>Home</p>
+		<p>About</p>
+	</nav>
+
+	<input class="search" type="text" name="searchPokemon" placeholder="Search by name, number.."/>
+
+	<div class="pokemon">
+		<a href="#">
+			<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/132.png"/>
+			<h2>#132 - Ditto</h2>
+		</a>
+	</div>
+
+	<footer>
+		<p>By <a href="http://github.com/alvarofilho">Álvaro Filho</a> with Svelte </p>
+		<p><a href="http://github.com/alvarofilho/pokedex">Github</a></p>
+	</footer>
 </main>
 
 <style>
