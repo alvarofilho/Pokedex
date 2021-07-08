@@ -1,4 +1,6 @@
 <script>
+	import Pokemon from "./components/Pokemon.svelte"
+	let pokemons = ["", "", "", "", "", ""]
 </script>
 
 <main>
@@ -8,13 +10,12 @@
 		<p>About</p>
 	</nav>
 
-	<input class="search" type="text" name="searchPokemon" placeholder="Search by name, number.."/>
+	<input class="search" type="text" name="searchPokemon" placeholder="Search by name, number.." />
 
-	<div class="pokemon">
-		<a href="#">
-			<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/132.png"/>
-			<h2>#132 - Ditto</h2>
-		</a>
+	<div class="pokemon-container">
+		{#each pokemons as pokemon}
+			<Pokemon name="Ditto" id="132" type="Fire, Grass" />
+		{/each}
 	</div>
 
 	<footer>
@@ -42,5 +43,14 @@
 		main {
 			max-width: none;
 		}
+	}
+
+	.pokemon-container {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: space-between;
+		justify-content: center;
+		margin: 0 auto;
+		max-width: 1200px;
 	}
 </style>
