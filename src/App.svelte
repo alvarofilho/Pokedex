@@ -1,27 +1,38 @@
 <script>
+	import { onMount } from "svelte";
 	import Pokemon from "./components/Pokemon.svelte"
-	let pokemons = ["", "", "", "", "", ""]
+	import Menu from "./components/Menu.svelte"
+	import Footer from "./components/Footer.svelte"
+
+	let pokemons;
+
+	onMount(async () => {
+		//897
+		await fetch(`https://pokeapi.co/api/v2/pokemon/?limit=10`)
+			.then(r => r.json())
+			.then(data => {
+				pokemons = data.results;
+			});
+	});
+
 </script>
 
 <main>
-	<h1>Pokedex</h1>
-	<nav>
-		<p>Home</p>
-		<p>About</p>
-	</nav>
+	<Menu />
 
 	<input class="search" type="text" name="searchPokemon" placeholder="Search by name, number.." />
 
 	<div class="pokemon-container">
-		{#each pokemons as pokemon}
-			<Pokemon name="Ditto" id="132" type="Fire, Grass" />
+		{#if pokemons}
+		{#each pokemons as pokemon, i}
+		<Pokemon id={i + 1} url={pokemon.url} />
 		{/each}
+		{:else}
+		<p>Loading...</p>
+		{/if}
 	</div>
 
-	<footer>
-		<p>By <a href="http://github.com/alvarofilho">Álvaro Filho</a> with Svelte </p>
-		<p><a href="http://github.com/alvarofilho/pokedex">Github</a></p>
-	</footer>
+	<Footer />
 </main>
 
 <style>
@@ -48,9 +59,25 @@
 	.pokemon-container {
 		display: flex;
 		flex-wrap: wrap;
+
 		align-items: space-between;
 		justify-content: center;
+
 		margin: 0 auto;
 		max-width: 1200px;
+	}
+
+	input {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		-moz-box-align: center;
+		align-items: center;
+		margin: 10px 0px 50px;
+		padding: 0px 20px;
+		height: 60px;
+		background: rgb(242, 242, 242) none repeat scroll 0% 0%;
+		border-radius: 10px;
+		border: 2px solid transparent;
 	}
 </style>

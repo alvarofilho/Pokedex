@@ -1,38 +1,43 @@
 <script>
- export let name;
- export let id;
- export let type;
+  import { onMount } from "svelte";
+  export let id;
+  export let url;
+  let pokemon;
+  let sprite;
+
+  onMount(async () => {
+    const response = await fetch(url);
+    pokemon = await response.json();
+  });
 </script>
 
 <main>
   <div class="pokemon">
-    <a href="#">
-      <img
-        src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/132.png" />
+    {#if pokemon}
+    <a href="{`pokemon/${id}/`}">
+      <img src={pokemon.sprites.other["official-artwork"].front_default} alt={pokemon.name}/>
       <p class="pokemon-id">#{id}</p>
-      <p class="pokemon-name">{name}</p>
-      <p class="pokemon-type">{type}</p>
+      <p class="pokemon-name">{pokemon.name}</p>
+      <p class="pokemon-type">{pokemon.types[0].type.name}</p>
     </a>
+    {:else}
+      <p>Loading...</p>
+    {/if}
   </div>
 </main>
 
 <style>
-  .pokemon-container {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: space-between;
-    justify-content: center;
-    margin: 0 auto;
-    max-width: 1200px;
-  }
-
   .pokemon {
     background-color: greenyellow;
+
     border-radius: 20px;
     box-shadow: 0 3px 15px rgba(100, 100, 100, 0.5);
-    margin: 10px;
+    
+    margin: 5px;
     padding: 20px;
+
     text-align: center;
+    text-transform: capitalize;
   }
 
   .pokemon-name {
@@ -54,7 +59,6 @@
     text-align: center;
 
     filter: grayscale(100%);
-    -webkit-transition: -webkit-filter 400ms ease;
     transition: all ease 0.4s;
   }
 
