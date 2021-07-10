@@ -24,11 +24,11 @@
 
 	<div class="pokemon-container">
 		{#if pokemons}
-		{#each pokemons as pokemon, i}
-		<Pokemon id={i + 1} url={pokemon.url} />
-		{/each}
+			{#each pokemons as pokemon, i}
+				<Pokemon id={i + 1} url={pokemon.url} />
+			{/each}
 		{:else}
-		<p>Loading...</p>
+			<p>Loading...</p>
 		{/if}
 	</div>
 
@@ -43,13 +43,6 @@
 		margin: 0 auto;
 	}
 
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
 	@media (min-width: 640px) {
 		main {
 			max-width: none;
@@ -60,7 +53,6 @@
 		display: flex;
 		flex-wrap: wrap;
 
-		align-items: space-between;
 		justify-content: center;
 
 		margin: 0 auto;

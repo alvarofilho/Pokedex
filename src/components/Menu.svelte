@@ -28,6 +28,7 @@
     font-size: 30px;
 
     color: black;
+    text-decoration: none;
   }
 
   nav a:hover {

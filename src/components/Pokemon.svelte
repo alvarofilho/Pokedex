@@ -1,25 +1,36 @@
 <script>
   import { onMount } from "svelte";
+  import { getColorType } from "../ultis.js";
+
   export let id;
   export let url;
+
+  let backgroundColor;
   let pokemon;
   let sprite;
 
   onMount(async () => {
     const response = await fetch(url);
     pokemon = await response.json();
+
+    if (pokemon.types[0].type.name === 'normal' && pokemon.types.length > 1) {
+      backgroundColor = getColorType(pokemon.types[1].type.name);
+    } else {
+      backgroundColor = getColorType(pokemon.types[0].type.name);
+    }
   });
+
 </script>
 
 <main>
-  <div class="pokemon">
+  <div class="pokemon" style="--color: {backgroundColor}">
     {#if pokemon}
-    <a href="{`pokemon/${id}/`}">
-      <img src={pokemon.sprites.other["official-artwork"].front_default} alt={pokemon.name}/>
-      <p class="pokemon-id">#{id}</p>
-      <p class="pokemon-name">{pokemon.name}</p>
-      <p class="pokemon-type">{pokemon.types[0].type.name}</p>
-    </a>
+      <a href="{`pokemon/${id}/`}">
+        <img src={pokemon.sprites.other["official-artwork"].front_default} alt={pokemon.name} />
+        <p class="pokemon-id">#{id}</p>
+        <p class="pokemon-name">{pokemon.name}</p>
+        <p class="pokemon-type">{pokemon.types[0].type.name}</p>
+      </a>
     {:else}
       <p>Loading...</p>
     {/if}
@@ -27,12 +38,16 @@
 </main>
 
 <style>
+  a {
+    text-decoration: none;
+  }
+
   .pokemon {
-    background-color: greenyellow;
+    background-color: var(--color);
 
     border-radius: 20px;
     box-shadow: 0 3px 15px rgba(100, 100, 100, 0.5);
-    
+
     margin: 5px;
     padding: 20px;
 
@@ -43,6 +58,9 @@
   .pokemon-name {
     margin: 15px 0 7px;
     letter-spacing: 1px;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
   }
 
   .pokemon-id {
@@ -51,6 +69,10 @@
     border-radius: 10px;
     font-size: 0.8em;
     padding: 5px 10px;
+  }
+
+  .pokemon-type {
+    color: white;
   }
 
   .pokemon img {
