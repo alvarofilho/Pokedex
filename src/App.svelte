@@ -8,6 +8,7 @@
 
 	let pokemons;
 	let offset = 0;
+	let searchValue;
 
 	onMount(async () => {
 		await fetch(`https://pokeapi.co/api/v2/pokemon/?limit=${LIMIT}`)
@@ -20,12 +21,21 @@
 		pokemons = [...pokemons, ...data.results];
 	};
 
+	const search = async () => {
+		if (searchValue.length > 2) {
+			let data = await fetch(`https://pokeapi.co/api/v2/pokemon/?limit=${750}`).then(r => r.json());
+			searchValue = searchValue.toLocaleLowerCase();
+			pokemons = data.results.filter((item) => item.name.includes(searchValue));
+		}
+	};
+
 </script>
 
 <main>
 	<Menu />
 
-	<input class="search" type="text" name="searchPokemon" placeholder="Search by name, number.." />
+	<input class="search" type="text" name="searchPokemon" placeholder="Search by name, number.." bind:value={searchValue}
+		on:input={search} />
 
 	<div class="pokemon-container">
 		{#if pokemons}

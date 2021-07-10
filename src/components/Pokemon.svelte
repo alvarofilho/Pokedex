@@ -27,7 +27,7 @@
     {#if pokemon}
       <a href="{`pokemon/${id}/`}">
         <img src={pokemon.sprites.other["official-artwork"].front_default} alt={pokemon.name} />
-        <p class="pokemon-id">#{id}</p>
+        <p class="pokemon-id">#{pokemon.id}</p>
         <p class="pokemon-name">{pokemon.name}</p>
         <p class="pokemon-type">{pokemon.types[0].type.name}</p>
       </a>
