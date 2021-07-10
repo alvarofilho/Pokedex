@@ -4,16 +4,21 @@
 	import Menu from "./components/Menu.svelte"
 	import Footer from "./components/Footer.svelte"
 
+	const LIMIT = 14;
+
 	let pokemons;
+	let offset = 0;
 
 	onMount(async () => {
-		//897
-		await fetch(`https://pokeapi.co/api/v2/pokemon/?limit=10`)
-			.then(r => r.json())
-			.then(data => {
-				pokemons = data.results;
-			});
+		await fetch(`https://pokeapi.co/api/v2/pokemon/?limit=${LIMIT}`)
+			.then(r => r.json()).then(data => pokemons = data.results);
 	});
+
+	const loadMore = async () => {
+		offset += LIMIT;
+		let data = await fetch(`https://pokeapi.co/api/v2/pokemon/?offset=${offset}&limit=${LIMIT}`).then(r => r.json());
+		pokemons = [...pokemons, ...data.results];
+	};
 
 </script>
 
@@ -24,13 +29,15 @@
 
 	<div class="pokemon-container">
 		{#if pokemons}
-			{#each pokemons as pokemon, i}
-				<Pokemon id={i + 1} url={pokemon.url} />
-			{/each}
+		{#each pokemons as pokemon, i (pokemon.name)}
+		<Pokemon id={i + 1} url={pokemon.url} />
+		{/each}
 		{:else}
-			<p>Loading...</p>
+		<p>Loading...</p>
 		{/if}
 	</div>
+
+	<button type="button" class="btn" on:click={loadMore}>Load more...</button>
 
 	<Footer />
 </main>
@@ -63,7 +70,6 @@
 		width: 100%;
 		display: flex;
 		flex-direction: row;
-		-moz-box-align: center;
 		align-items: center;
 		margin: 10px 0px 50px;
 		padding: 0px 20px;
@@ -71,5 +77,24 @@
 		background: rgb(242, 242, 242) none repeat scroll 0% 0%;
 		border-radius: 10px;
 		border: 2px solid transparent;
+	}
+
+	.btn {
+		font-size: 20px;
+		color: rgb(255, 255, 255);
+		width: 50%;
+		height: 50px;
+		background: rgb(90, 146, 165) none repeat scroll 0% 0%;
+		margin: 30px auto 0px;
+		outline: currentcolor none 0px;
+		border: 0px none;
+		border-radius: 4px;
+		opacity: 0.8;
+		transition: all 0.2s linear 0s;
+	}
+
+	.btn:hover {
+		opacity: 1;
+		cursor: pointer;
 	}
 </style>

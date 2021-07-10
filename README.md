@@ -15,3 +15,4 @@
  - [Svelte](https://svelte.dev/)
  - [Github Action](https://github.com/features/actions)
 ## Credits
+ * [Leonardo Vargas](https://github.com/LeeonardoVargas/pokedex)
