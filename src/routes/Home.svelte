@@ -24,10 +24,13 @@
   };
 
   const search = async () => {
-    if (searchValue.length > 2) {
+    if (Number(searchValue) == searchValue && searchValue !== "") {
+      let data = await fetch(`https://pokeapi.co/api/v2/pokemon/?limit=${750}`).then(r => r.json());
+      pokemons = data.results.filter(item => searchValue == item.url.split("/")[6]);
+    } else if (searchValue.length > 2) {
       let data = await fetch(`https://pokeapi.co/api/v2/pokemon/?limit=${750}`).then(r => r.json());
       searchValue = searchValue.toLocaleLowerCase();
-      pokemons = data.results.filter((item) => item.name.includes(searchValue));
+      pokemons = data.results.filter(item => item.name.includes(searchValue));
     } else {
       loadPokemon();
     }
@@ -38,7 +41,7 @@
 <main>
   <Menu />
 
-  <input class="search" type="text" name="searchPokemon" placeholder="Search by name, number.." bind:value={searchValue}
+  <input class="search" type="text" name="searchPokemon" placeholder="Search by name and number." bind:value={searchValue}
     on:input={search} />
 
   <div class="pokemon-container">
