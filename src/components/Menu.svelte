@@ -5,8 +5,8 @@
 <main>
 	<h1>Pokedex</h1>
 	<nav>
-		<a href=".">Home</a>
-		<a>About</a>
+		<a href="/">Home</a>
+		<a href="/about">About</a>
 	</nav>
 </main>
 
