@@ -5,22 +5,34 @@
 
   export let params;
 
-  let id = params.id;
-  let pokemon = [];
+  let name = params.name;
+  let pokemon;
 
-  onMount(async () => {
-    const data = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+  onMount(async () => loadPokemon());
+
+  const loadPokemon = async () => {
+    const data = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}/`);
     pokemon = await data.json();
-  });
+  };
 
 </script>
 
 <main>
   <Menu />
-
-  <p>{pokemon.name}</p>
-  <p>{pokemon.weight}</p>
-
+  {#if pokemon}
+  <div class="about">
+    <img src={pokemon.sprites.other["official-artwork"].front_default} alt={pokemon.name} />
+    <p>#{pokemon.id}</p>
+    <p>Name: {pokemon.name}</p>
+  </div>
+  <div class="menu">
+    <p>About</p>
+    <p>Stats</p>
+    <p>Evolution</p>
+  </div>
+  {:else}
+  <p>Loading...</p>
+  {/if}
   <Footer />
 </main>
 
@@ -36,5 +48,32 @@
     main {
       max-width: none;
     }
+  }
+
+  .about {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .about img {
+    left: 50%;
+    height: 300px;
+    width: 300px;
+  }
+
+  .about p {
+    text-align: center;
+    text-transform: capitalize;
+  }
+
+  .menu {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  .menu p:hover {
+    cursor: pointer;
   }
 </style>

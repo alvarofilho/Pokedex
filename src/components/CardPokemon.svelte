@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import { getColorType } from "../ultis.js";
 
-  export let id;
+  export let name;
   export let url;
 
   let backgroundColor;
@@ -25,7 +25,7 @@
 <main>
   <div class="pokemon" style="--color: {backgroundColor}">
     {#if pokemon}
-      <a href="{`pokemon/${id}/`}">
+      <a href="{`#/pokemon/${name}/`}">
         <img src={pokemon.sprites.other["official-artwork"].front_default} alt={pokemon.name} />
         <p class="pokemon-id">#{pokemon.id}</p>
         <p class="pokemon-name">{pokemon.name}</p>

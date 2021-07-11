@@ -6,7 +6,7 @@
 <main>
   <Menu />
   <h1>About Page</h1>
-
+  <p>Project created with the intention of studying Svelte and its technologies. </p>
   <Footer />
 </main>
 
