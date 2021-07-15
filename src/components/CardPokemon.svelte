@@ -8,15 +8,19 @@
   let backgroundColor;
   let pokemon;
   let sprite;
+  let types;
 
   onMount(async () => {
     const response = await fetch(url);
     pokemon = await response.json();
 
-    if (pokemon.types[0].type.name === 'normal' && pokemon.types.length > 1) {
-      backgroundColor = getColorType(pokemon.types[1].type.name);
+    types = pokemon.types
+      .map(item => item.type.name.charAt(0).toUpperCase() + item.type.name.slice(1));
+
+    if (types[0] === 'Normal' && types.length > 1) {
+      backgroundColor = getColorType(types[1]);
     } else {
-      backgroundColor = getColorType(pokemon.types[0].type.name);
+      backgroundColor = getColorType(types[0]);
     }
   });
 
@@ -25,14 +29,15 @@
 <main>
   <div class="pokemon" style="--color: {backgroundColor}">
     {#if pokemon}
-      <a href="{`#/pokemon/${name}/`}">
-        <img src={pokemon.sprites.other["official-artwork"].front_default} alt={pokemon.name} />
-        <p class="pokemon-id">#{pokemon.id}</p>
-        <p class="pokemon-name">{pokemon.name}</p>
-        <p class="pokemon-type">{pokemon.types[0].type.name}</p>
-      </a>
+    <a href="{`#/pokemon/${name}/`}">
+      <img src={pokemon.sprites.other["official-artwork"].front_default} alt={pokemon.name} />
+      <p class="pokemon-id">#{pokemon.id.toString()
+        .padStart(3, '0')}</p>
+      <p class="pokemon-name">{pokemon.name}</p>
+      <p class="pokemon-type">Type: {types}</p>
+    </a>
     {:else}
-      <p>Loading...</p>
+    <p>Loading...</p>
     {/if}
   </div>
 </main>
