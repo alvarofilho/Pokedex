@@ -7,28 +7,42 @@
 
   let name = params.name;
   let pokemon;
+  let stats = [];
 
   onMount(async () => loadPokemon());
 
   const loadPokemon = async () => {
     const data = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}/`);
     pokemon = await data.json();
+    getPokemonStats(pokemon.stats);
+    console.log(pokemon)
+  };
+
+  const getPokemonStats = (pokemonStats) => {
+    pokemonStats.forEach(item => stats.push([item.stat.name, item.base_stat]));
   };
 
 </script>
+
+<svelte:head>
+  <title>Pokedex - {name}</title>
+</svelte:head>
 
 <main>
   <Menu />
   {#if pokemon}
   <div class="about">
-    <img src={pokemon.sprites.other["official-artwork"].front_default} alt={pokemon.name} />
-    <p>#{pokemon.id}</p>
-    <p>Name: {pokemon.name}</p>
+    <img src={pokemon.sprites.other["official-artwork"].front_default} alt={name} />
+    <p>#{pokemon.id.toString()
+      .padStart(3, '0')}</p>
+    <p>{name}</p>
   </div>
-  <div class="menu">
-    <p>About</p>
-    <p>Stats</p>
-    <p>Evolution</p>
+  <div class="status">
+    {#each stats as stat, i (i)}
+    <div class="status-item">
+      <p>{stat[0]}: {stat[1]}</p>
+    </div>
+    {/each}
   </div>
   {:else}
   <p>Loading...</p>
@@ -67,13 +81,17 @@
     text-transform: capitalize;
   }
 
-  .menu {
+  .status {
+    flex: 1;
+    max-width: 300px;
+    margin: 0 auto;
     display: flex;
-    align-items: center;
-    justify-content: space-around;
+    text-transform: capitalize;
+    justify-content: center;
   }
 
-  .menu p:hover {
-    cursor: pointer;
+  .status-item {
+    padding: 50px;
+    border: 1px solid #ccc;
   }
 </style>
